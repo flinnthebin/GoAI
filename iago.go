@@ -11,14 +11,14 @@ import (
 )
 
 func showHelp() {
-	fmt.Println(`Usage: ./script -s <tokens> -t <temperature> <input_file>
+	fmt.Println(`Usage: iago -s <tokens> -t <temperature> <input_file>
 
 Options:
     -s <tokens>         Set number of tokens to generate
     -t <temperature>    Temperature for response generation
     -h                  Show help menu
 
-Example Usage: go run ai.go -s 1000 -t 0.4 input.txt
+Example Usage: iago -s 1000 -t 0.4 input.txt
 
 ------------
 
@@ -47,8 +47,8 @@ High (0.7 - 1.0)
 Creative and unpredictable. Strong possibility of hallucination.`)
 }
 
-func generateOutFileName(inputFile string) string {
-	baseName := filepath.Base(inputFile)
+func generateOutFileName(inFile string) string {
+	baseName := filepath.Base(inFile)
 	extension := filepath.Ext(baseName)
 	return fmt.Sprintf("output%s", extension)
 }
@@ -130,10 +130,10 @@ func main() {
 		return
 	}
 
-	inputFile := os.Args[len(os.Args)-1]
-    outputFile := generateOutFileName(inputFile)
+	inFile := os.Args[len(os.Args)-1]
+    outFile := generateOutFileName(inFile)
 
-	file, err := os.Open(inputFile)
+	file, err := os.Open(inFile)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -167,14 +167,14 @@ func main() {
 	}
 
 	if len(completion.Choices) == 0 {
-		fmt.Println("Error: No completion choices received")
+		fmt.Println("Error: No return response")
 		return
 	}
 
-	if err := writeToFile(outputFile, completion.Choices[0].Message.Content); err != nil {
+	if err := writeToFile(outFile, completion.Choices[0].Message.Content); err != nil {
 		fmt.Println("Error writing to output file:", err)
 		return
 	}
-	fmt.Println("Output written to", outputFile)
+	fmt.Println("I am not what I am")
 }
 

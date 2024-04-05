@@ -140,20 +140,27 @@ func main() {
 	}
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	var prompt string
-	for scanner.Scan() {
-		prompt = scanner.Text()
-	}
+	var messages []ChatMessage
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+        line := scanner.Text()
+        message := ChatMessage{Role: "user", Content: line}
+        messages = append(messages, message)
+}
+    jsonData, err := json.Marshal(messages)
+    if err != nil {
+        fmt.Println("Error marshaling JSON:", err)
+        return
+    }
+    
 
 	cmd := exec.Command("curl",
-		"-X", "POST",
-		"https://api.openai.com/v1/chat/completions",
-		"-H", "Content-Type: application/json",
-		"-H", fmt.Sprintf("Authorization: Bearer %s", os.Getenv("API_KEY")),
-		"--data", fmt.Sprintf(`{"model": "gpt-4-turbo-preview", "messages": [{"role": "user", "content": "%s"}], "max_tokens": %d, "temperature": %f}`, prompt, TOKEN, TEMP),
-	)
-
+    "-X", "POST",
+    "https://api.openai.com/v1/chat/completions",
+    "-H", "Content-Type: application/json",
+    "-H", fmt.Sprintf("Authorization: Bearer %s", os.Getenv("API_KEY")),
+    "--data", fmt.Sprintf(`{"model": "gpt-4-turbo-preview", "messages": %s, "max_tokens": %d, "temperature": %f}`, string(jsonData), TOKEN, TEMP),
+)
 	out, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)

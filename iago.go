@@ -158,7 +158,7 @@ func main() {
     "-X", "POST",
     "https://api.openai.com/v1/chat/completions",
     "-H", "Content-Type: application/json",
-    "-H", fmt.Sprintf("Authorization: Bearer %s", os.Getenv("API_KEY")),
+    "-H", fmt.Sprintf("Authorization: Bearer %s", os.Getenv("OPENAI_API")),
     "--data", fmt.Sprintf(`{"model": "gpt-4-turbo-preview", "messages": %s, "max_tokens": %d, "temperature": %f}`, string(jsonData), TOKEN, TEMP),
 )
 	out, err := cmd.Output()

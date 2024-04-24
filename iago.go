@@ -18,7 +18,7 @@ Options:
     -t <temperature>    Temperature for response generation
     -h                  Show help menu
 
-Example Usage: iago -s 1000 -t 0.4 input.txt
+Example Usage: iago -s 4096 -t 0.1 input.txt
 
 ------------
 

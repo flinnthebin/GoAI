@@ -77,12 +77,12 @@ type ChatChoice struct {
 }
 
 type ChatCompletion struct {
-	ID                string       `json:"id"`
-	Object            string       `json:"object"`
-	Created           int64        `json:"created"`
-	Model             string       `json:"model"`
-	Choices           []ChatChoice `json:"choices"`
-	Usage             struct {
+	ID      string       `json:"id"`
+	Object  string       `json:"object"`
+	Created int64        `json:"created"`
+	Model   string       `json:"model"`
+	Choices []ChatChoice `json:"choices"`
+	Usage   struct {
 		PromptTokens     int `json:"prompt_tokens"`
 		CompletionTokens int `json:"completion_tokens"`
 		TotalTokens      int `json:"total_tokens"`
@@ -98,8 +98,8 @@ func main() {
 	}
 
 	var (
-		TOKEN     int
-		TEMP      float64
+		TOKEN int
+		TEMP  float64
 	)
 
 	for i := 1; i < len(os.Args); i++ {
@@ -131,7 +131,7 @@ func main() {
 	}
 
 	inFile := os.Args[len(os.Args)-1]
-    outFile := generateOutFileName(inFile)
+	outFile := generateOutFileName(inFile)
 
 	file, err := os.Open(inFile)
 	if err != nil {
@@ -141,26 +141,26 @@ func main() {
 	defer file.Close()
 
 	var messages []ChatMessage
-    scanner := bufio.NewScanner(file)
-    for scanner.Scan() {
-        line := scanner.Text()
-        message := ChatMessage{Role: "user", Content: line}
-        messages = append(messages, message)
-}
-    jsonData, err := json.Marshal(messages)
-    if err != nil {
-        fmt.Println("Error marshaling JSON:", err)
-        return
-    }
-    
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		message := ChatMessage{Role: "user", Content: line}
+		messages = append(messages, message)
+	}
+	jsonData, err := json.Marshal(messages)
+	if err != nil {
+		fmt.Println("Error marshaling JSON:", err)
+		return
+	}
 
 	cmd := exec.Command("curl",
-    "-X", "POST",
-    "https://api.openai.com/v1/chat/completions",
-    "-H", "Content-Type: application/json",
-    "-H", fmt.Sprintf("Authorization: Bearer %s", os.Getenv("OPENAI_API")),
-    "--data", fmt.Sprintf(`{"model": "gpt-4-turbo-preview", "messages": %s, "max_tokens": %d, "temperature": %f}`, string(jsonData), TOKEN, TEMP),
-)
+		"-X", "POST",
+		"https://api.openai.com/v1/chat/completions",
+		"-H", "Content-Type: application/json",
+		"-H", fmt.Sprintf("Authorization: Bearer %s", os.Getenv("OPENAI_API")),
+		"--data", fmt.Sprintf(`{"model": "gpt-4-turbo-preview", "messages": %s, "max_tokens": %d, "temperature": %f}`, string(jsonData), TOKEN, TEMP),
+	)
+
 	out, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -184,4 +184,3 @@ func main() {
 	}
 	fmt.Println("I am not what I am")
 }
-

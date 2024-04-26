@@ -14,7 +14,7 @@ iago also seems to run slightly faster than the original shGPT bash script.
 ```
 git clone https://github.com/flinnthebin/iago
 
-go build iago
+make run
 
 mv iago /usr/bin/
 

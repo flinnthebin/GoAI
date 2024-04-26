@@ -2,7 +2,7 @@
 iago - a command-line utility for accessing openAI LLMs
 
 # Note : OpenAI have aggressively refactored the means by which their LLMs define "valid JSON"
-# This implementation is no longer functional until we figure out a way to get past this.
+This version is officially deprecated until we write a custom JSON tool to accompany iago
 
 ## File Interaction                                                                                                                                                                                                
 iago is an extension of shGPT, designed to improve reliability when handling large files.

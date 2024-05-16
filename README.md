@@ -2,7 +2,7 @@
 iago - a command-line utility for accessing openAI LLMs
 
 ## File Interaction                                                                                                                                                                                                
-iago is an extension of [shGPT](https://github.com/flinnthebin/shGPT)), designed to improve reliability when handling large files.
+iago is an extension of [shGPT](https://github.com/flinnthebin/shGPT), designed to improve reliability when handling large files.
 
 iago also seems to run slightly faster than the original shGPT bash script.
 
